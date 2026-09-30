@@ -535,13 +535,6 @@ export const Step4CardVoting: React.FC<Step4CardVotingProps> = ({
         <div className="w-full flex flex-col items-center gap-5 max-w-[820px] mx-auto animate-fade-in">
           {/* Header & Badges */}
           <div className="w-full flex flex-col items-center text-center gap-2">
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-surface-container-high shadow-sm">
-              <span className="material-symbols-outlined text-[18px] text-primary">near_me</span>
-              <span className="text-xs font-bold text-on-surface font-mono">
-                기준 위치: {midpointStation} 주변 반경 400m
-              </span>
-            </div>
-
             <div className="flex items-center justify-between w-full mt-1 px-2">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
