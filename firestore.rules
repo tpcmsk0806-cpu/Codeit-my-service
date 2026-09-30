@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidRoom(data) {
+      return data.roomName is string && data.roomName.size() > 0 && data.roomName.size() <= 100
+        && data.hostName is string && data.hostName.size() > 0 && data.hostName.size() <= 50
+        && data.hostStation is string && data.hostStation.size() > 0 && data.hostStation.size() <= 50
+        && data.targetMemberCount is number && data.targetMemberCount >= 2 && data.targetMemberCount <= 10
+        && data.step is number && data.step >= 1 && data.step <= 5
+        && data.createdAt is string && data.createdAt.size() <= 50;
+    }
+
+    function isValidParticipant(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 50
+        && data.station is string && data.station.size() > 0 && data.station.size() <= 50
+        && data.isHost is bool
+        && data.joinedAt is string && data.joinedAt.size() <= 50;
+    }
+
+    match /rooms/{roomId} {
+      allow get, list: if isValidId(roomId);
+      allow create: if isValidId(roomId) && isValidRoom(request.resource.data);
+      allow update: if isValidId(roomId) && isValidRoom(request.resource.data);
+
+      match /participants/{participantId} {
+        allow get, list: if isValidId(roomId);
+        allow create, update: if isValidId(roomId) && isValidId(participantId) && isValidParticipant(request.resource.data);
+        allow delete: if isValidId(roomId) && isValidId(participantId);
+      }
+    }
+  }
+}

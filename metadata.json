@@ -1,0 +1,6 @@
+{
+  "name": "반틈 (Bantheum)",
+  "description": "출발역만 입력하면 3분 만에 찾는 공평하고 스마트한 중간 장소 약속 플랫폼",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "Room": {
+      "title": "Room",
+      "description": "A meeting room where participants gather to find a fair midpoint subway station",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique room identifier"
+        },
+        "roomName": {
+          "type": "string",
+          "description": "Title of the appointment or gathering",
+          "maxLength": 100
+        },
+        "hostName": {
+          "type": "string",
+          "description": "Nickname of the room creator",
+          "maxLength": 50
+        },
+        "hostStation": {
+          "type": "string",
+          "description": "Subway station where the host starts",
+          "maxLength": 50
+        },
+        "targetMemberCount": {
+          "type": "number",
+          "description": "Target number of participants expected to join"
+        },
+        "step": {
+          "type": "number",
+          "description": "Current active step in the meeting process (1-5)"
+        },
+        "midpointStation": {
+          "type": "string",
+          "description": "Calculated or chosen fair midpoint station",
+          "maxLength": 50
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when the room was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp when the room was last updated"
+        },
+        "votes": {
+          "type": "object",
+          "description": "Real-time card voting results submitted by participants"
+        },
+        "matchedVenueId": {
+          "type": "string",
+          "description": "ID of the final matched venue"
+        }
+      },
+      "required": ["roomName", "hostName", "hostStation", "targetMemberCount", "step", "createdAt"]
+    },
+    "Participant": {
+      "title": "Participant",
+      "description": "A participant in a meeting room with their origin subway station",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique participant identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Participant's nickname",
+          "maxLength": 50
+        },
+        "station": {
+          "type": "string",
+          "description": "Subway station where the participant departs",
+          "maxLength": 50
+        },
+        "isHost": {
+          "type": "boolean",
+          "description": "Whether this participant is the room creator"
+        },
+        "joinedAt": {
+          "type": "string",
+          "description": "ISO timestamp when participant joined"
+        }
+      },
+      "required": ["name", "station", "isHost", "joinedAt"]
+    }
+  },
+  "firestore": {
+    "/rooms/{roomId}": {
+      "schema": "Room",
+      "description": "Collection of appointment rooms"
+    },
+    "/rooms/{roomId}/participants/{participantId}": {
+      "schema": "Participant",
+      "description": "Subcollection of participants for a specific room"
+    }
+  }
+}
